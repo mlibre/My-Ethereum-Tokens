@@ -31,7 +31,7 @@ let secrets = require("./secrets.json");
 })()
 ```
 
-You can also use the specify the block range to scan. In this example it will scan from block **5820544** to **5820541**.
+You can also specify the block range to scan. In this example it will scan from the block **5820544** to **5820541**.
 
 ```javascript
 let EthereumTokens = require("my-ethereum-tokens");
