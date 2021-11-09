@@ -39,7 +39,7 @@ New Token:  {
   name: 'Mlibre',
   symbol: 'MLB',
   balance: '172',
-  address: '0x2107130860b83dF501C518A2A6D4652dC3af0388',
+  contractAddress: '0x2107130860b83dF501C518A2A6D4652dC3af0388',
   txHash: '0xb9fb32ac45af0cd3081016c680382bbae5e58ffbf50b058a319cc2d028f590b3',
   blockNumber: 5820544
 }

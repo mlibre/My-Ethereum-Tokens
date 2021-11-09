@@ -1,6 +1,6 @@
 {
   "name": "my-ethereum-tokens",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Finds ethereum tokens for a wallet address",
   "main": "main.js",
   "author": {
