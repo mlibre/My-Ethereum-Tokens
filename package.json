@@ -1,0 +1,33 @@
+{
+  "name": "my-ethereum-tokens",
+  "version": "1.0.0",
+  "description": "Finds ethereum tokens for a wallet address",
+  "main": "main.js",
+  "author": {
+    "name": "mlibre",
+    "email": "m.gh@linuxmail.org",
+    "url": "https://twitter.com/mlibreT"
+  },
+  "license": "CC0",
+  "homepage": "",
+  "repository": "github:mlibre/",
+  "bugs": "/issues",
+  "keywords": [
+    "ethereum",
+    "smart contracts",
+    "token",
+    "erc",
+    "wallet"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^1.6.0",
+    "web3": "^1.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-plugin-node": "^11.1.0"
+  }
+}
