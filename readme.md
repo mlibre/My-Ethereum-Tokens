@@ -33,7 +33,7 @@ let secrets = require("./secrets.json");
 
 The output is something like this:
 
-```javascript
+```java
 Block:  5820544
 New Token:  {
   name: 'Mlibre',
