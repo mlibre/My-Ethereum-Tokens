@@ -60,19 +60,15 @@ let secrets = require("./secrets.json");
    toBlock: 5820544,
    blockCount: 3
   })
-  ethereumTokens.find()
-  ethereumTokens.onBlock(async (block) => {
-   console.log("Block: " , block.number)
-  })
-  ethereumTokens.onToken(async (tokenInfo) => {
-   console.log("New Token: ", tokenInfo)
-  })
+  let tokens = await ethereumTokens.find()
+  console.log(tokens)
  }
  catch (e)
  {
   console.error("Error:" , e)
  }
 })()
+
 ```
 
 ## License

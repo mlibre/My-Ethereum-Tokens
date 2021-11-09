@@ -50,6 +50,7 @@ class ethereumTokens
 			this.blockCount = blockCount || 100
 			this.eventEmitter = new EventEmitter()
 			this.minABI = minABI
+			this.tokens = {}
 			return this
 		})()
 	}
@@ -71,6 +72,7 @@ class ethereumTokens
 				catch{}
 			}
 		}
+		return self.tokens
 	}	
 	async tokenInfo(txInfo)
 	{
@@ -91,6 +93,7 @@ class ethereumTokens
 				"txHash": txInfo.hash,
 				"blockNumber": txInfo.blockNumber
 			}
+			self.tokens[txInfo.to] = tokenInfo
 			self.eventEmitter.emit("newToken" , tokenInfo )
 		}
 	}
