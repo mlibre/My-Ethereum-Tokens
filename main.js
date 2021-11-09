@@ -87,7 +87,7 @@ class ethereumTokens
 				"name": tokenName,
 				"symbol": tokenSymbol,
 				"balance": realBalance,
-				"address": txInfo.to,
+				"contract address": txInfo.to,
 				"txHash": txInfo.hash,
 				"blockNumber": txInfo.blockNumber
 			}
