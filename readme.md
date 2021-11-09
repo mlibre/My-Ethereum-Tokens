@@ -31,6 +31,20 @@ let secrets = require("./secrets.json");
 })()
 ```
 
+The output is something like this:
+
+```javascript
+Block:  5820544
+New Token:  {
+  name: 'Mlibre',
+  symbol: 'MLB',
+  balance: '172',
+  address: '0x2107130860b83dF501C518A2A6D4652dC3af0388',
+  txHash: '0xb9fb32ac45af0cd3081016c680382bbae5e58ffbf50b058a319cc2d028f590b3',
+  blockNumber: 5820544
+}
+```
+
 You can also specify the block range to scan. In this example it will scan from the block **5820544** to **5820541**.
 
 ```javascript
@@ -60,3 +74,12 @@ let secrets = require("./secrets.json");
  }
 })()
 ```
+
+## License
+
+CC0
+
+## Donate 💗
+
+ETH:
+> 0xc9b64496986E7b6D4A68fDF69eF132A35e91838e
