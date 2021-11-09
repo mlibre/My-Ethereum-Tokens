@@ -1,10 +1,40 @@
 # My Ethereum Tokens
 
-There are currently a large number of ERC tokens in Ethereum. Keeping track of what you have is a bit hard.  
-`MET` is a simple project that scans the last N blocks in order to find active `ERC` tokens. It then checks if the provided wallet address has any balance on these tokens.
+There are currently a large number of ERC tokens in Ethereum. Keeping track of what you own is a bit hard.  
+`MET` is a simple project that scans the last **N** blocks in order to find active `ERC` tokens, and then checks if a **wallet address** has any balance of these tokens.
+
+By default, it will scan the last **100** blocks.
 
 ```javascript
-let EthereumTokens = require("./main")
+let EthereumTokens = require("my-ethereum-tokens");
+let secrets = require("./secrets.json");
+
+(async () => {
+ try
+ {
+  let ethereumTokens = await new EthereumTokens({
+   walletAddress: "0xc9b64496986E7b6D4A68fDF69eF132A35e91838e",
+   providerAddress: secrets.goerli,
+  })
+  ethereumTokens.find()
+  ethereumTokens.onBlock(async (block) => {
+   console.log("Block: " , block.number)
+  })
+  ethereumTokens.onToken(async (tokenInfo) => {
+   console.log("New Token: ", tokenInfo)
+  })
+ }
+ catch (e)
+ {
+  console.error("Error:" , e)
+ }
+})()
+```
+
+You can also use the specify the block range to scan. In this example it will scan from block **5820544** to **5820541**.
+
+```javascript
+let EthereumTokens = require("my-ethereum-tokens");
 let secrets = require("./secrets.json");
 
 (async () => {

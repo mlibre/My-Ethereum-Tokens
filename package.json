@@ -9,9 +9,9 @@
     "url": "https://twitter.com/mlibreT"
   },
   "license": "CC0",
-  "homepage": "",
-  "repository": "github:mlibre/",
-  "bugs": "/issues",
+  "homepage": "https://github.com/mlibre/My-Ethereum-Tokens",
+  "repository": "github:mlibre/My-Ethereum-Tokens",
+  "bugs": "https://github.com/mlibre/My-Ethereum-Tokens/issues",
   "keywords": [
     "ethereum",
     "smart contracts",

@@ -56,7 +56,7 @@ class ethereumTokens
 	
 	async find () {
 		let self = this
-		for (let i = self.toBlock; i > self.toBlock - self.blockCount; i--) {
+		for (let i = self.toBlock; i >= self.toBlock - self.blockCount; i--) {
 			let block = await self.web3.eth.getBlock(i)
 			self.eventEmitter.emit("newBlock" , block)
 			for (let i = 0; i < block.transactions.length; i++) {
