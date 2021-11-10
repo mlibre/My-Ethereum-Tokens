@@ -55,7 +55,17 @@ class ethereumTokens
 		})()
 	}
 	
-	async find () {
+	async findSync () {
+		await this.blocks()
+		return this.tokens
+	}
+	find()
+	{
+		this.blocks()
+		return this
+	}
+	async blocks()
+	{
 		let self = this
 		for (let i = self.toBlock; i >= self.toBlock - self.blockCount; i--) {
 			let block = await self.web3.eth.getBlock(i)
@@ -72,8 +82,8 @@ class ethereumTokens
 				catch{}
 			}
 		}
-		return self.tokens
-	}	
+		self.eventEmitter.emit("done" , self.tokens)
+	}
 	async tokenInfo(txInfo)
 	{
 		let self = this
@@ -82,7 +92,7 @@ class ethereumTokens
 		if(balance != 0)
 		{
 			let decimals = await contract.methods.decimals().call()
-			let realBalance = (balance / Math.pow(10,decimals)).toFixed(20).replace(/\.?0+$/,"")
+			let realBalance = self.toFixed(balance / Math.pow(10,decimals))
 			let tokenName = await contract.methods.name().call()
 			let tokenSymbol = await contract.methods.symbol().call()
 			let tokenInfo = {
@@ -97,18 +107,12 @@ class ethereumTokens
 			self.eventEmitter.emit("newToken" , tokenInfo )
 		}
 	}
-	onBlock(callback)
+	on(string , callback)
 	{
-		this.eventEmitter.on("newBlock", function (blockInfo) {
-			callback(blockInfo)
-		})			
-	}
-
-	onToken(callback)
-	{
-		this.eventEmitter.on("newToken", function (tokenInfo) {
-			callback(tokenInfo)
-		})			
+		this.eventEmitter.on(string, function (info) {
+			callback(info)
+		})
+		return this	
 	}
 	toFixed (number) 
 	{
