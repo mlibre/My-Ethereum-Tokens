@@ -17,5 +17,9 @@ jobs:
       - run: npm install
       - run: npm install -g browserify
       - run: browserify -r ./main.js:EthereumTokens -o ./web/bundle.js
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - run: |
+          git config --global user.name 'mlibre'
+          git config --global user.email 'm.gh@linuxmail.org'
+          git add web
+          git commit -am "Automated bundle"
+          git push
