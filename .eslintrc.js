@@ -21,7 +21,7 @@ module.exports = {
 		"space-before-blocks": [ "warn" ],
 		"func-call-spacing": [ "error", "never" ],
 		"space-before-function-paren": [ "error", "always" ],
-		"space-in-parens": [ "error", "always" ],
+		"space-in-parens": [ "error", "always", { "exceptions": [ "{}" ] } ],
 		"keyword-spacing": [ "error" ],
 		"comma-spacing": [ "error" ],
 		"space-unary-ops": [ "error" ],

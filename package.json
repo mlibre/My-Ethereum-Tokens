@@ -17,13 +17,14 @@
     "smart contracts",
     "token",
     "erc",
-    "wallet"
+    "wallet",
+    "metamask"
   ],
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=17.0.0"
   },
   "dependencies": {
-    "@truffle/hdwallet-provider": "^1.6.0",
+    "@truffle/hdwallet-provider": "^2.0.4",
     "web3": "^1.6.0"
   },
   "devDependencies": {

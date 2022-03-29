@@ -34,7 +34,7 @@ const minABI = [
 
 class ethereumTokens
 {
-	constructor ( { walletAddress, providerAddress, web3, toBlock,	blockCount } )
+	constructor ({ walletAddress, providerAddress, web3, toBlock,	blockCount })
 	{
 		return ( async () =>
 		{
@@ -51,7 +51,7 @@ class ethereumTokens
 			this.minABI = minABI
 			this.tokens = {}
 			return this
-		} )()
+		})()
 	}
 
 	async findSync ()
@@ -81,7 +81,10 @@ class ethereumTokens
 						await this.tokenInfo( txInfo )
 					}
 				}
-				catch {}
+				catch ( error )
+				{
+					// console.log( error );
+				}
 			}
 		}
 		self.eventEmitter.emit( "done", self.tokens )
@@ -114,7 +117,7 @@ class ethereumTokens
 		this.eventEmitter.on( string, function ( info )
 		{
 			callback( info )
-		} )
+		})
 		return this
 	}
 	toFixed ( number )
