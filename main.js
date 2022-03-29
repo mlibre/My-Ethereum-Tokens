@@ -34,7 +34,7 @@ const minABI = [
 
 class ethereumTokens
 {
-	constructor ({ walletAddress, providerAddress, web3, toBlock,	blockCount })
+	constructor ({ walletAddress, providerAddress, web3, toBlock,	blockCount, liveBlockPerSecond })
 	{
 		return ( async () =>
 		{
@@ -47,6 +47,7 @@ class ethereumTokens
 			}
 			this.toBlock = toBlock || await this.web3.eth.getBlockNumber()
 			this.blockCount = blockCount || 100
+			this.liveBlockPerSecond = liveBlockPerSecond || 3;
 			this.eventEmitter = new EventEmitter()
 			this.minABI = minABI
 			this.tokens = {}
@@ -54,6 +55,47 @@ class ethereumTokens
 		})()
 	}
 
+	live ()
+	{
+		const self = this;
+		if ( !self.live.processingBlocks )
+		{
+			self.live.processingBlocks = 0;
+		}
+		self.web3.eth.subscribe( "newBlockHeaders", async ( error, _block ) =>
+		{
+			if ( error )
+			{
+				self.eventEmitter.emit( "error", error )
+				return;
+			}
+			if ( self.live.processingBlocks >= self.liveBlockPerSecond )
+			{
+				return
+			}
+			self.live.processingBlocks++;
+			try
+			{
+				const block = await self.web3.eth.getBlock( _block.number )
+				self.eventEmitter.emit( "newBlock", block )
+				const trxQueue = [];
+				for ( let i = 0; i < block.transactions.length; i++ )
+				{
+					trxQueue.push( self.transactionProcess( block.transactions[i] ) )
+				}
+				await Promise.allSettled( trxQueue );
+			}
+			catch ( error )
+			{
+				console.log( error );
+			}
+			finally
+			{
+				self.live.processingBlocks--;
+			}
+		});
+		return this;
+	}
 	async findSync ()
 	{
 		await this.blocksSync()
@@ -73,6 +115,7 @@ class ethereumTokens
 		}
 		self.eventEmitter.emit( "done", self.tokens )
 	}
+
 	find ()
 	{
 		this.blocks()

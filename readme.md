@@ -10,6 +10,7 @@ There are currently a large number of ERC tokens in Ethereum. Keeping track of w
   - [Last 100 blocks](#last-100-blocks)
   - [Last N blocks](#last-n-blocks)
   - [Specify Blocks range](#specify-blocks-range)
+  - [Live scan](#live-scan)
   - [Using In Web Browser](#using-in-web-browser)
 - [License](#license)
 - [Donate 💗](#donate-)
@@ -132,6 +133,60 @@ let secrets = require("./secrets.json");
   console.error("Error:" , e)
  }
 })()
+```
+
+### Live scan
+
+You can configure the `MET` to scan the blockchain live for tokens.  
+By default it will scan latest 2~4 blocks each time.
+
+```javascript
+let EthereumTokens = require("my-ethereum-tokens");
+let secrets = require("./secrets.json");
+
+( async () =>
+{
+ try
+ {
+  const ethereumTokens = await new EthereumTokens({
+   walletAddress: "0xc9b64496986E7b6D4A68fDF69eF132A35e91838e",
+   providerAddress: secrets.mainnetWS
+   // providerAddress: "ws://127.0.0.1:8546",
+  //  liveBlockPerSecond: 3
+  })
+  ethereumTokens.live()
+  .on( "newBlock", function ( block )
+  {
+   console.log( "Block: ", block.number )
+  })
+  .on( "newToken", function ( tokenInfo )
+  {
+   console.log( "New Token: ", tokenInfo )
+  })
+  .on( "error", function ( error )
+  {
+   console.log( "error: ", error )
+  })
+ }
+ catch ( e )
+ {
+  console.error( "Error:", e )
+ }
+})()
+```
+
+The output is something like this:
+
+```java
+Block:  5820544
+New Token:  {
+  name: 'Mlibre',
+  symbol: 'MLB',
+  balance: '172',
+  contractAddress: '0x2107130860b83dF501C518A2A6D4652dC3af0388',
+  txHash: '0xb9fb32ac45af0cd3081016c680382bbae5e58ffbf50b058a319cc2d028f590b3',
+  blockNumber: 5820544
+}
 ```
 
 ### Using In Web Browser

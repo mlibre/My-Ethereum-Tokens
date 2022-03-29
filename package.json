@@ -1,6 +1,6 @@
 {
   "name": "my-ethereum-tokens",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Finds ethereum tokens for a wallet address",
   "main": "main.js",
   "author": {
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@truffle/hdwallet-provider": "^2.0.4",
-    "web3": "^1.6.0"
+    "web3": "^1.7.1"
   },
   "devDependencies": {
     "eslint": "^8.12.0",
