@@ -152,7 +152,7 @@ let secrets = require("./secrets.json");
    walletAddress: "0xc9b64496986E7b6D4A68fDF69eF132A35e91838e",
    providerAddress: secrets.mainnetWS
    // providerAddress: "ws://127.0.0.1:8546",
-  //  liveBlockPerSecond: 3
+  //  liveBlockScanNo: 3
   })
   ethereumTokens.live()
   .on( "newBlock", function ( block )

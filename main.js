@@ -34,7 +34,7 @@ const minABI = [
 
 class ethereumTokens
 {
-	constructor ({ walletAddress, providerAddress, web3, toBlock,	blockCount, liveBlockPerSecond })
+	constructor ({ walletAddress, providerAddress, web3, toBlock,	blockCount, liveBlockScanNo })
 	{
 		return ( async () =>
 		{
@@ -47,7 +47,7 @@ class ethereumTokens
 			}
 			this.toBlock = toBlock || await this.web3.eth.getBlockNumber()
 			this.blockCount = blockCount || 100
-			this.liveBlockPerSecond = liveBlockPerSecond || 3;
+			this.liveBlockScanNo = liveBlockScanNo || 3;
 			this.eventEmitter = new EventEmitter()
 			this.minABI = minABI
 			this.tokens = {}
@@ -69,7 +69,7 @@ class ethereumTokens
 				self.eventEmitter.emit( "error", error )
 				return;
 			}
-			if ( self.live.processingBlocks >= self.liveBlockPerSecond )
+			if ( self.live.processingBlocks >= self.liveBlockScanNo )
 			{
 				return
 			}
