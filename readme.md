@@ -2,7 +2,7 @@
 
 There are currently a large number of ERC tokens in Ethereum. Keeping track of what you own is a bit hard.  
 `MET` is a simple project that scans the last **N** blocks in order to find active `ERC` tokens, and then checks if a **wallet address** has any balance of these tokens.
-
+ 
 ## Table Of Content
 
 - [Installation](#installation)
