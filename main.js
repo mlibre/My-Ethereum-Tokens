@@ -43,7 +43,7 @@ class ethereumTokens
 			this.web3 = web3
 			if ( !web3 )
 			{
-				this.web3 = new Web3( providerAddress )
+				this.web3 = new Web3( this.providerAddress )
 			}
 			this.toBlock = toBlock || await this.web3.eth.getBlockNumber()
 			this.blockCount = blockCount || 100
@@ -56,8 +56,22 @@ class ethereumTokens
 
 	async findSync ()
 	{
-		await this.blocks()
+		await this.blocksSync()
 		return this.tokens
+	}
+	async blocksSync ()
+	{
+		const self = this
+		for ( let i = self.toBlock; i >= self.toBlock - self.blockCount; i-- )
+		{
+			const block = await self.web3.eth.getBlock( i )
+			self.eventEmitter.emit( "newBlock", block )
+			for ( let i = 0; i < block.transactions.length; i++ )
+			{
+				await this.transactionProcess( block.transactions[i] )
+			}
+		}
+		self.eventEmitter.emit( "done", self.tokens )
 	}
 	find ()
 	{
@@ -71,25 +85,43 @@ class ethereumTokens
 		{
 			const block = await self.web3.eth.getBlock( i )
 			self.eventEmitter.emit( "newBlock", block )
+			const trxQueue = [];
 			for ( let i = 0; i < block.transactions.length; i++ )
 			{
-				const txInfo = await self.web3.eth.getTransaction( block.transactions[i] )
-				try
+				trxQueue.push( self.transactionProcess( block.transactions[i] ) )
+			}
+			const result = await Promise.allSettled( trxQueue );
+			for ( let i = 0; i < result.length; i++ )
+			{
+				if ( result[i].status == "fulfilled" )
 				{
-					if ( txInfo.to )
-					{
-						await this.tokenInfo( txInfo )
-					}
+					continue
 				}
-				catch ( error )
+				else
 				{
-					// console.log( error );
+					// console.log( result[i].reason );
 				}
 			}
 		}
 		self.eventEmitter.emit( "done", self.tokens )
 	}
-	async tokenInfo ( txInfo )
+	async transactionProcess ( trxId )
+	{
+		const self = this
+		const txInfo = await self.web3.eth.getTransaction( trxId )
+		try
+		{
+			if ( txInfo.to )
+			{
+				await this.tokenProcess( txInfo )
+			}
+		}
+		catch ( error )
+		{
+			// console.log( error );
+		}
+	}
+	async tokenProcess ( txInfo )
 	{
 		const self = this
 		const contract = new self.web3.eth.Contract( minABI, txInfo.to )
@@ -108,8 +140,12 @@ class ethereumTokens
 				"txHash": txInfo.hash,
 				"blockNumber": txInfo.blockNumber
 			}
-			self.tokens[txInfo.to] = tokenInfo
-			self.eventEmitter.emit( "newToken", tokenInfo )
+			if ( !self.tokens[txInfo.to] )
+			{
+				self.tokens[txInfo.to] = tokenInfo
+				self.eventEmitter.emit( "newToken", tokenInfo )
+			}
+			return tokenInfo
 		}
 	}
 	on ( string, callback )
